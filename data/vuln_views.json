@@ -1,0 +1,329 @@
+{
+  "sequences": [
+    {
+      "id": "ep_029",
+      "title": "GET /identity/api/v2/vehicle/{carId}/location",
+      "verdict": "vulnerable_bola",
+      "service": "identity",
+      "code_loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/VehicleController.java:121",
+      "handler": "getLocationBOLA",
+      "codeql": [
+        {
+          "source": "VehicleController.java:122",
+          "sink": "VehicleServiceImpl.java:180",
+          "steps": [
+            "VehicleController.java:122  public ResponseEntity<?> getLocationBOLA(@PathVariable(\"carId\") UUID carId) {",
+            "VehicleController.java:123  VehicleLocationResponse vehicleDetails = vehicleService.getVehicleLocation(carId",
+            "VehicleServiceImpl.java:174  public VehicleLocationResponse getVehicleLocation(UUID carId) {",
+            "VehicleServiceImpl.java:180  vehicleDetails = vehicleDetailsRepository.findByUuid(carId);"
+          ]
+        }
+      ],
+      "leaked": [
+        "email",
+        "fullName",
+        "latitude",
+        "longitude"
+      ],
+      "scenarios": {
+        "owner": 200,
+        "cross": 200,
+        "anon": 401
+      },
+      "actors": [
+        {
+          "id": "attacker",
+          "label": "공격자",
+          "sub": "B 토큰 / 토큰 없음"
+        },
+        {
+          "id": "gateway",
+          "label": "gateway",
+          "sub": "nginx 라우팅"
+        },
+        {
+          "id": "identity",
+          "label": "identity",
+          "sub": "Spring Security JWT 필터"
+        },
+        {
+          "id": "db",
+          "label": "PostgreSQL",
+          "sub": "데이터 저장소"
+        }
+      ],
+      "hops": [
+        {
+          "from": "attacker",
+          "to": "gateway",
+          "kind": "request",
+          "label": "GET /identity/api/v2/vehicle/{carId}/location",
+          "note": "소유자 아닌 토큰 / 토큰 없이"
+        },
+        {
+          "from": "gateway",
+          "to": "identity",
+          "kind": "forward",
+          "label": "프록시 전달",
+          "check": "ok",
+          "check_label": "게이트웨이: 경로만 보고 통과(인가 안 함)"
+        },
+        {
+          "from": "identity",
+          "to": "identity",
+          "kind": "authcheck",
+          "label": "토큰 유효성 검사",
+          "check": "ok",
+          "check_label": "인증 통과(로그인은 됨)"
+        },
+        {
+          "from": "identity",
+          "to": "db",
+          "kind": "query",
+          "label": "carId로 조회",
+          "check": "fail",
+          "check_label": "CodeQL taint 확정: VehicleController.java:122 → VehicleServiceImpl.java:180 (소유권 검사 없음)",
+          "vuln": true,
+          "taint": true
+        },
+        {
+          "from": "db",
+          "to": "identity",
+          "kind": "return",
+          "label": "소유자 식별 데이터"
+        },
+        {
+          "from": "identity",
+          "to": "attacker",
+          "kind": "response",
+          "label": "200 + email, fullName, latitude, longitude",
+          "note": "공격자에게 타인 PII 반환",
+          "vuln": true
+        }
+      ]
+    },
+    {
+      "id": "ep_049",
+      "title": "GET /workshop/api/mechanic/service_request/{service_request_id}",
+      "verdict": "vulnerable_no_auth",
+      "service": "workshop",
+      "code_loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:347",
+      "handler": "ServiceRequestView.get",
+      "codeql": [
+        {
+          "source": "views.py:372",
+          "sink": "views.py:373",
+          "steps": [
+            "views.py:372  service_request = ServiceRequest.objects.get(id=service_request_id)",
+            "views.py:373  serializer = MechanicServiceRequestSerializer(service_request)"
+          ]
+        }
+      ],
+      "leaked": [
+        "email",
+        "number",
+        "vin"
+      ],
+      "scenarios": {
+        "owner": 200,
+        "cross": 200,
+        "anon": 200
+      },
+      "actors": [
+        {
+          "id": "attacker",
+          "label": "공격자",
+          "sub": "B 토큰 / 토큰 없음"
+        },
+        {
+          "id": "gateway",
+          "label": "gateway",
+          "sub": "nginx 라우팅"
+        },
+        {
+          "id": "workshop",
+          "label": "workshop",
+          "sub": "뷰 메서드의 @jwt_auth_required (누락 가능)"
+        },
+        {
+          "id": "db",
+          "label": "PostgreSQL",
+          "sub": "데이터 저장소"
+        }
+      ],
+      "hops": [
+        {
+          "from": "attacker",
+          "to": "gateway",
+          "kind": "request",
+          "label": "GET /workshop/api/mechanic/service_request/{service_request_id}",
+          "note": "소유자 아닌 토큰 / 토큰 없이"
+        },
+        {
+          "from": "gateway",
+          "to": "workshop",
+          "kind": "forward",
+          "label": "프록시 전달",
+          "check": "ok",
+          "check_label": "게이트웨이: 경로만 보고 통과(인가 안 함)"
+        },
+        {
+          "from": "workshop",
+          "to": "db",
+          "kind": "query",
+          "label": "바로 조회",
+          "check": "fail",
+          "check_label": "인증 검사 없음 — 토큰 없이도 진입",
+          "vuln": true
+        },
+        {
+          "from": "db",
+          "to": "workshop",
+          "kind": "return",
+          "label": "소유자 식별 데이터"
+        },
+        {
+          "from": "workshop",
+          "to": "attacker",
+          "kind": "response",
+          "label": "200 + email, number, vin",
+          "note": "공격자에게 타인 PII 반환",
+          "vuln": true
+        }
+      ]
+    },
+    {
+      "id": "ep_063",
+      "title": "GET /workshop/api/shop/orders/{order_id}",
+      "verdict": "vulnerable_no_auth",
+      "service": "workshop",
+      "code_loc": "sources/crAPI/services/workshop/crapi/shop/views.py:109",
+      "handler": "OrderControlView.get",
+      "codeql": [
+        {
+          "source": "views.py:122",
+          "sink": "views.py:123",
+          "steps": [
+            "views.py:122  order = Order.objects.get(id=order_id)",
+            "views.py:123  order_serializer = OrderSerializer(order)"
+          ]
+        }
+      ],
+      "leaked": [
+        "email",
+        "number"
+      ],
+      "scenarios": {
+        "owner": 200,
+        "cross": 200,
+        "anon": 200
+      },
+      "actors": [
+        {
+          "id": "attacker",
+          "label": "공격자",
+          "sub": "B 토큰 / 토큰 없음"
+        },
+        {
+          "id": "gateway",
+          "label": "gateway",
+          "sub": "nginx 라우팅"
+        },
+        {
+          "id": "workshop",
+          "label": "workshop",
+          "sub": "뷰 메서드의 @jwt_auth_required (누락 가능)"
+        },
+        {
+          "id": "db",
+          "label": "PostgreSQL",
+          "sub": "데이터 저장소"
+        }
+      ],
+      "hops": [
+        {
+          "from": "attacker",
+          "to": "gateway",
+          "kind": "request",
+          "label": "GET /workshop/api/shop/orders/{order_id}",
+          "note": "소유자 아닌 토큰 / 토큰 없이"
+        },
+        {
+          "from": "gateway",
+          "to": "workshop",
+          "kind": "forward",
+          "label": "프록시 전달",
+          "check": "ok",
+          "check_label": "게이트웨이: 경로만 보고 통과(인가 안 함)"
+        },
+        {
+          "from": "workshop",
+          "to": "db",
+          "kind": "query",
+          "label": "바로 조회",
+          "check": "fail",
+          "check_label": "인증 검사 없음 — 토큰 없이도 진입",
+          "vuln": true
+        },
+        {
+          "from": "db",
+          "to": "workshop",
+          "kind": "return",
+          "label": "소유자 식별 데이터"
+        },
+        {
+          "from": "workshop",
+          "to": "attacker",
+          "kind": "response",
+          "label": "200 + email, number",
+          "note": "공격자에게 타인 PII 반환",
+          "vuln": true
+        }
+      ]
+    }
+  ],
+  "matrix": [
+    {
+      "method": "GET",
+      "path": "/identity/api/v2/vehicle/{carId}/location",
+      "service": "identity",
+      "verdict": "vulnerable_bola",
+      "leaked": [
+        "email",
+        "fullName",
+        "latitude",
+        "longitude"
+      ],
+      "owner": 200,
+      "cross": 200,
+      "anon": 401
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic/service_request/{service_request_id}",
+      "service": "workshop",
+      "verdict": "vulnerable_no_auth",
+      "leaked": [
+        "email",
+        "number",
+        "vin"
+      ],
+      "owner": 200,
+      "cross": 200,
+      "anon": 200
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/shop/orders/{order_id}",
+      "service": "workshop",
+      "verdict": "vulnerable_no_auth",
+      "leaked": [
+        "email",
+        "number"
+      ],
+      "owner": 200,
+      "cross": 200,
+      "anon": 200
+    }
+  ]
+}

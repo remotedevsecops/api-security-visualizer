@@ -1,0 +1,11 @@
+# 원시 트래픽 (용량·재현 가능)
+data/*.har
+# CodeQL 데이터베이스 (용량 큼, 빌드로 재생성)
+codeql/*-db/
+# 파이썬
+__pycache__/
+*.pyc
+.venv/
+# 로컬 환경
+*.sarif.bak
+.DS_Store

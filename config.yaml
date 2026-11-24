@@ -1,0 +1,79 @@
+# API 보안 가시화 툴킷 설정
+# 모든 경로는 이 파일이 있는 toolkit/ 기준 상대 경로.
+
+target:
+  base_url: http://127.0.0.1:8888      # crAPI (docker, 로컬 전용)
+  proxy_url: http://127.0.0.1:8889     # mitmproxy 리버스 프록시 (트래픽 캡처용)
+
+# 이 툴킷이 요청을 보낼 수 있는 대상. 이 밖으로는 절대 요청하지 않는다.
+scope:
+  allowed_hosts: [127.0.0.1, localhost]
+
+sources:
+  spec: ../sources/crAPI/openapi-spec/crapi-openapi-spec.json
+  gateway_nginx: ../sources/crAPI/services/web/nginx.conf.template
+  traffic_har: data/traffic.har
+  code:
+    - service: identity
+      framework: spring
+      path: ../sources/crAPI/services/identity/src/main/java
+    - service: community
+      framework: gorilla-mux
+      path: ../sources/crAPI/services/community/api
+    - service: workshop
+      framework: django
+      path: ../sources/crAPI/services/workshop
+      root_urlconf: crapi_site/urls.py
+
+gateway:
+  # nginx 템플릿의 업스트림 변수 → 서비스 이름
+  upstream_map:
+    IDENTITY_SERVICE: identity
+    COMMUNITY_SERVICE: community
+    WORKSHOP_SERVICE: workshop
+    CHATBOT_SERVICE: chatbot
+    MAILHOG_WEB_SERVICE: mailhog
+  # 사용자용이 아닌 내부 도구 (외부 노출 시 INTERNAL_TOOL)
+  internal_tools: [mailhog]
+
+# "의도적으로 공개"인 경로. 여기에 없는데 인증이 없으면 NO_AUTH 플래그.
+expected_public:
+  - /identity/api/auth/**
+  - /identity/health_check
+  - /community/home
+  - /workshop/health_check/**
+  - /workshop/api/mechanic/signup
+  - /.well-known/jwks.json
+  - /health
+
+output_dir: data
+
+# M3 가드레일 자율검증 (읽기 전용 BOLA 차분 테스트)
+m3:
+  allowed_methods: [GET]        # 기본 읽기만. 파괴적 메서드는 가드가 차단
+  rate_per_sec: 3               # 초당 요청 상한
+  dry_run: false                # true면 실제 전송 없이 계획만
+  test_users:                   # 로컬 crAPI 테스트 계정 (범위 한정)
+    a: {email: usera@test.local, password: "Passw0rd!a"}
+    b: {email: userb@test.local, password: "Passw0rd!b"}
+
+# 서비스 간 의존성 (코드 근거로 선언 — crAPI 규모에선 선언이 정적추출보다 정확).
+# M4 서비스 맵의 간선. evidence는 실제 소스 위치.
+service_deps:
+  - from: community
+    to: identity
+    purpose: "토큰 검증 (POST /identity/api/auth/verify)"
+    evidence: "community/api/auth/token.go:72"
+    tls_verify: false   # InsecureSkipVerify: true (token.go:56)
+  - from: gateway
+    to: identity
+    purpose: "게이트웨이 라우팅 /identity/"
+    evidence: "web/nginx.conf.template"
+  - from: gateway
+    to: community
+    purpose: "게이트웨이 라우팅 /community/"
+    evidence: "web/nginx.conf.template"
+  - from: gateway
+    to: workshop
+    purpose: "게이트웨이 라우팅 /workshop/"
+    evidence: "web/nginx.conf.template"

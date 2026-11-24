@@ -1,0 +1,311 @@
+{
+  "meta": {
+    "generated_at": "2026-11-23T18:01:57+00:00",
+    "target": "http://127.0.0.1:8888",
+    "dry_run": false,
+    "guardrails": {
+      "allowed_hosts": [
+        "127.0.0.1",
+        "localhost"
+      ],
+      "allowed_methods": [
+        "GET"
+      ],
+      "rate_per_sec": 3.0
+    },
+    "request_counts": {
+      "sent": 27,
+      "blocked": 2,
+      "dry": 0
+    }
+  },
+  "findings": [
+    {
+      "case": "vehicle-location",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/identity/api/v2/vehicle/98c86840-b43f-4804-abfd-159165c21dd0/location",
+      "owner": "a",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 401,
+      "verdict": "vulnerable_bola",
+      "leaked_signals": [
+        "email",
+        "fullName",
+        "latitude",
+        "longitude"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "latitude": "37.***69",
+          "longitude": "-94***28",
+          "fullName": "u***",
+          "email": "use***al"
+        },
+        "cross_actor": "b",
+        "cross_leaked": {
+          "latitude": "37.***69",
+          "longitude": "-94***28",
+          "fullName": "u***",
+          "email": "use***al"
+        },
+        "anon_leaked": {}
+      }
+    },
+    {
+      "case": "vehicle-location",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/identity/api/v2/vehicle/a1be0cdd-4952-4f28-8cfe-157b13c03091/location",
+      "owner": "b",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 401,
+      "verdict": "vulnerable_bola",
+      "leaked_signals": [
+        "email",
+        "fullName",
+        "latitude",
+        "longitude"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "latitude": "32.***89",
+          "longitude": "-91***43",
+          "fullName": "u***",
+          "email": "use***al"
+        },
+        "cross_actor": "a",
+        "cross_leaked": {
+          "latitude": "32.***89",
+          "longitude": "-91***43",
+          "fullName": "u***",
+          "email": "use***al"
+        },
+        "anon_leaked": {}
+      }
+    },
+    {
+      "case": "shop-order",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/workshop/api/shop/orders/6",
+      "owner": "a",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 200,
+      "verdict": "vulnerable_no_auth",
+      "leaked_signals": [
+        "email",
+        "number"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "email": "use***al",
+          "number": "010***01"
+        },
+        "cross_actor": "b",
+        "cross_leaked": {
+          "email": "use***al",
+          "number": "010***01"
+        },
+        "anon_leaked": {
+          "email": "use***al",
+          "number": "010***01"
+        }
+      }
+    },
+    {
+      "case": "shop-order",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/workshop/api/shop/orders/7",
+      "owner": "b",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 200,
+      "verdict": "vulnerable_no_auth",
+      "leaked_signals": [
+        "email",
+        "number"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "email": "use***al",
+          "number": "010***02"
+        },
+        "cross_actor": "a",
+        "cross_leaked": {
+          "email": "use***al",
+          "number": "010***02"
+        },
+        "anon_leaked": {
+          "email": "use***al",
+          "number": "010***02"
+        }
+      }
+    },
+    {
+      "case": "mechanic-service-request",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/workshop/api/mechanic/service_request/1",
+      "owner": "a",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 200,
+      "verdict": "vulnerable_no_auth",
+      "leaked_signals": [
+        "email",
+        "number",
+        "vin"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "email": "jho***om",
+          "vin": "8VA***11",
+          "number": "987***06"
+        },
+        "cross_actor": "b",
+        "cross_leaked": {
+          "email": "jho***om",
+          "vin": "8VA***11",
+          "number": "987***06"
+        },
+        "anon_leaked": {
+          "email": "jho***om",
+          "vin": "8VA***11",
+          "number": "987***06"
+        }
+      }
+    },
+    {
+      "case": "mechanic-service-request",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/workshop/api/mechanic/service_request/2",
+      "owner": "a",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 200,
+      "verdict": "vulnerable_no_auth",
+      "leaked_signals": [
+        "email",
+        "number",
+        "vin"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "email": "jam***om",
+          "vin": "6NB***16",
+          "number": "901***40"
+        },
+        "cross_actor": "b",
+        "cross_leaked": {
+          "email": "jam***om",
+          "vin": "6NB***16",
+          "number": "901***40"
+        },
+        "anon_leaked": {
+          "email": "jam***om",
+          "vin": "6NB***16",
+          "number": "901***40"
+        }
+      }
+    },
+    {
+      "case": "mechanic-service-request",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/workshop/api/mechanic/service_request/3",
+      "owner": "a",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 200,
+      "verdict": "vulnerable_no_auth",
+      "leaked_signals": [
+        "email",
+        "number",
+        "vin"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "email": "jam***om",
+          "vin": "0NK***73",
+          "number": "987***01"
+        },
+        "cross_actor": "b",
+        "cross_leaked": {
+          "email": "jam***om",
+          "vin": "0NK***73",
+          "number": "987***01"
+        },
+        "anon_leaked": {
+          "email": "jam***om",
+          "vin": "0NK***73",
+          "number": "987***01"
+        }
+      }
+    },
+    {
+      "case": "mechanic-service-request",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/workshop/api/mechanic/service_request/4",
+      "owner": "a",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 200,
+      "verdict": "vulnerable_no_auth",
+      "leaked_signals": [
+        "email",
+        "number",
+        "vin"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "email": "jho***om",
+          "vin": "7EC***04",
+          "number": "987***23"
+        },
+        "cross_actor": "b",
+        "cross_leaked": {
+          "email": "jho***om",
+          "vin": "7EC***04",
+          "number": "987***23"
+        },
+        "anon_leaked": {
+          "email": "jho***om",
+          "vin": "7EC***04",
+          "number": "987***23"
+        }
+      }
+    },
+    {
+      "case": "mechanic-service-request",
+      "method": "GET",
+      "url": "http://127.0.0.1:8888/workshop/api/mechanic/service_request/5",
+      "owner": "a",
+      "baseline_status": 200,
+      "cross_status": 200,
+      "anon_status": 200,
+      "verdict": "vulnerable_no_auth",
+      "leaked_signals": [
+        "email",
+        "number",
+        "vin"
+      ],
+      "evidence": {
+        "owner_signals": {
+          "email": "jho***om",
+          "vin": "7EC***04",
+          "number": "987***23"
+        },
+        "cross_actor": "b",
+        "cross_leaked": {
+          "email": "jho***om",
+          "vin": "7EC***04",
+          "number": "987***23"
+        },
+        "anon_leaked": {
+          "email": "jho***om",
+          "vin": "7EC***04",
+          "number": "987***23"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,3051 @@
+{
+  "meta": {
+    "generated_at": "2026-11-23T18:00:03+00:00",
+    "target": "http://127.0.0.1:8888",
+    "source_counts": {
+      "code": 69,
+      "spec": 44,
+      "gateway_locations": 11,
+      "traffic": 19
+    },
+    "gateway_locations": [
+      {
+        "prefix": "/community/",
+        "kind": "proxy",
+        "upstream": "community",
+        "proxy_target": "${HTTP_PROTOCOL}://${COMMUNITY_SERVICE}",
+        "line": 146
+      },
+      {
+        "prefix": "/identity/",
+        "kind": "proxy",
+        "upstream": "identity",
+        "proxy_target": "${HTTP_PROTOCOL}://${IDENTITY_SERVICE}",
+        "line": 164
+      },
+      {
+        "prefix": "/workshop/",
+        "kind": "proxy",
+        "upstream": "workshop",
+        "proxy_target": "${HTTP_PROTOCOL}://${WORKSHOP_SERVICE}",
+        "line": 179
+      },
+      {
+        "prefix": "/chatbot/",
+        "kind": "proxy",
+        "upstream": "chatbot",
+        "proxy_target": "${HTTP_PROTOCOL}://${CHATBOT_SERVICE}",
+        "line": 197
+      },
+      {
+        "prefix": "/images",
+        "kind": "static-files",
+        "upstream": null,
+        "proxy_target": null,
+        "line": 217
+      },
+      {
+        "prefix": "/static",
+        "kind": "static-files",
+        "upstream": null,
+        "proxy_target": null,
+        "line": 221
+      },
+      {
+        "prefix": "/debug/",
+        "kind": "directory-listing",
+        "upstream": null,
+        "proxy_target": null,
+        "line": 225
+      },
+      {
+        "prefix": "/.well-known/jwks.json",
+        "kind": "proxy",
+        "upstream": "identity",
+        "proxy_target": "${HTTP_PROTOCOL}://${IDENTITY_SERVICE}/identity/api/auth/jwks.json",
+        "line": 232
+      },
+      {
+        "prefix": "/mailhog/",
+        "kind": "proxy",
+        "upstream": "mailhog",
+        "proxy_target": "http://${MAILHOG_WEB_SERVICE}/",
+        "line": 236
+      },
+      {
+        "prefix": "/health",
+        "kind": "static-response",
+        "upstream": null,
+        "proxy_target": null,
+        "line": 253
+      },
+      {
+        "prefix": "/",
+        "kind": "static-files",
+        "upstream": null,
+        "proxy_target": null,
+        "line": 258
+      }
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/forget-password",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/forget-password",
+          "handler": "forgetPassword",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:111",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/auth/forget-password",
+          "auth": "public",
+          "operation_id": "forgot_password",
+          "summary": "Forgot Password",
+          "tags": [
+            "Identity / Auth"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_001"
+    },
+    {
+      "method": "GET",
+      "path": "/identity/api/auth/jwks.json",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "GET",
+          "path": "/identity/api/auth/jwks.json",
+          "handler": "verifyJwtToken",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:101",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_002"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/login",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/login",
+          "handler": "authenticateUser",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:55",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/auth/login",
+          "auth": "public",
+          "operation_id": "login",
+          "summary": "Login",
+          "tags": [
+            "Identity / Auth"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": {
+          "method": "POST",
+          "path": "/identity/api/auth/login",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "anonymous"
+          ],
+          "unauth_2xx": 2,
+          "matched_template": true,
+          "samples": [
+            "/identity/api/auth/login"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "public",
+      "id": "ep_003"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/reset-test-users",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/reset-test-users",
+          "handler": "resetPassword",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:180",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "DEBUG"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_004"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/signup",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/signup",
+          "handler": "registerUser",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:71",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/auth/signup",
+          "auth": "public",
+          "operation_id": "signup",
+          "summary": "Sign up",
+          "tags": [
+            "Identity / Auth"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_005"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/unlock",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/unlock",
+          "handler": "unlockAccount",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:199",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_006"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/v2.7/user/login-with-token",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/v2.7/user/login-with-token",
+          "handler": "loginWithTokenV2",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:169",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/auth/v2.7/user/login-with-token",
+          "auth": "public",
+          "operation_id": "login_with_token_v2_7",
+          "summary": "Login with email token - v2.7",
+          "tags": [
+            "Identity / Auth"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "OLD_VERSION"
+      ],
+      "notes": [
+        "상위 버전 v4 과 병존"
+      ],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_007"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/v2/check-otp",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/v2/check-otp",
+          "handler": "checkOtp",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:126",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/auth/v2/check-otp",
+          "auth": "public",
+          "operation_id": "check_otp_v2",
+          "summary": "Check OTP - Version 2",
+          "tags": [
+            "Identity / Auth"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "OLD_VERSION"
+      ],
+      "notes": [
+        "상위 버전 v3 과 병존"
+      ],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_008"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/v3/check-otp",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/v3/check-otp",
+          "handler": "secureCheckOtp",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:141",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/auth/v3/check-otp",
+          "auth": "public",
+          "operation_id": "check_otp_v3",
+          "summary": "Check OTP - Version 3",
+          "tags": [
+            "Identity / Auth"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_009"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/v4.0/user/login-with-token",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/v4.0/user/login-with-token",
+          "handler": "loginWithToken",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:157",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/auth/v4.0/user/login-with-token",
+          "auth": "public",
+          "operation_id": "login_with_token",
+          "summary": "Login with email token",
+          "tags": [
+            "Identity / Auth"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_010"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/auth/verify",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/auth/verify",
+          "handler": "verifyJwtToken",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/AuthController.java:88",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/auth/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_011"
+    },
+    {
+      "method": "DELETE",
+      "path": "/identity/api/v2/admin/videos/{video_id}",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "DELETE",
+          "path": "/identity/api/v2/admin/videos/{video_id}",
+          "handler": "deleteVideoBOLA",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ProfileController.java:129",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "DELETE",
+          "path": "/identity/api/v2/admin/videos/{video_id}",
+          "auth": "token",
+          "operation_id": "admin_delete_profile_video",
+          "summary": "Delete Profile Video Admin",
+          "tags": [
+            "Identity / Admin"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "ADMIN",
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_012"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/user/change-email",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/user/change-email",
+          "handler": "changesEmail",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ChangeEmailController.java:41",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/v2/user/change-email",
+          "auth": "token",
+          "operation_id": "change_email",
+          "summary": "Change user email",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_013"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/user/change-phone-number",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/user/change-phone-number",
+          "handler": "changesPhone",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ChangePhoneController.java:26",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_014"
+    },
+    {
+      "method": "GET",
+      "path": "/identity/api/v2/user/dashboard",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "GET",
+          "path": "/identity/api/v2/user/dashboard",
+          "handler": "dashboard",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/UserController.java:43",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/api/v2/user/dashboard) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/identity/api/v2/user/dashboard",
+          "auth": "token",
+          "operation_id": "get_dashboard",
+          "summary": "Get user dashboard data",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/identity/api/v2/user/dashboard",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/identity/api/v2/user/dashboard"
+          ]
+        }
+      },
+      "flags": [
+        "AUTH_MISMATCH",
+        "NO_AUTH"
+      ],
+      "notes": [
+        "코드=public / 스펙=token"
+      ],
+      "lifecycle": "active",
+      "auth": "public",
+      "id": "ep_015"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/user/pictures",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/user/pictures",
+          "handler": "updateProfilePicture",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ProfileController.java:60",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/v2/user/pictures",
+          "auth": "token",
+          "operation_id": "update_profile_pic",
+          "summary": "Update user profile picture",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_016"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/user/reset-password",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/user/reset-password",
+          "handler": "resetPassword",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/UserController.java:58",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/v2/user/reset-password",
+          "auth": "token",
+          "operation_id": "reset_password",
+          "summary": "Reset Password",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_017"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/user/verify-email-token",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/user/verify-email-token",
+          "handler": "verifyEmailToken",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ChangeEmailController.java:59",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/v2/user/verify-email-token",
+          "auth": "token",
+          "operation_id": "verify_email_token",
+          "summary": "Verify Email Token",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_018"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/user/verify-phone-otp",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/user/verify-phone-otp",
+          "handler": "verifyPhoneOTP",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ChangePhoneController.java:44",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_019"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/user/videos",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/user/videos",
+          "handler": "uploadProfileVideo",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ProfileController.java:78",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/v2/user/videos",
+          "auth": "token",
+          "operation_id": "upload_profile_video",
+          "summary": "Upload User profile video",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_020"
+    },
+    {
+      "method": "GET",
+      "path": "/identity/api/v2/user/videos/convert_video",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "GET",
+          "path": "/identity/api/v2/user/videos/convert_video",
+          "handler": "convertVideoEndPoint",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ProfileController.java:145",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/identity/api/v2/user/videos/convert_video",
+          "auth": "token",
+          "operation_id": "convert_profile_video",
+          "summary": "Convert Profile Video",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_021"
+    },
+    {
+      "method": "DELETE",
+      "path": "/identity/api/v2/user/videos/{video_id}",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "DELETE",
+          "path": "/identity/api/v2/user/videos/{video_id}",
+          "handler": "deleteVideo",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ProfileController.java:113",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "DELETE",
+          "path": "/identity/api/v2/user/videos/{video_id}",
+          "auth": "token",
+          "operation_id": "delete_profile_video",
+          "summary": "Delete Profile Video by video_id",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_022"
+    },
+    {
+      "method": "GET",
+      "path": "/identity/api/v2/user/videos/{video_id}",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "GET",
+          "path": "/identity/api/v2/user/videos/{video_id}",
+          "handler": "getProfileVideo",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ProfileController.java:42",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/identity/api/v2/user/videos/{video_id}",
+          "auth": "token",
+          "operation_id": "get_profile_video",
+          "summary": "Get User Profile Video",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_023"
+    },
+    {
+      "method": "PUT",
+      "path": "/identity/api/v2/user/videos/{video_id}",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "PUT",
+          "path": "/identity/api/v2/user/videos/{video_id}",
+          "handler": "updateProfileVideo",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ProfileController.java:95",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "PUT",
+          "path": "/identity/api/v2/user/videos/{video_id}",
+          "auth": "token",
+          "operation_id": "update_profile_video",
+          "summary": "Update User Profile Video by video_id",
+          "tags": [
+            "Identity / User"
+          ],
+          "body_id_fields": [
+            "id"
+          ]
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BODY_ID",
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [
+        "요청 바디 객체 참조: id"
+      ],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_024"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/vehicle/add_vehicle",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/vehicle/add_vehicle",
+          "handler": "addVehicle",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/VehicleController.java:60",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/v2/vehicle/add_vehicle",
+          "auth": "token",
+          "operation_id": "add_vehicle",
+          "summary": "Add the user vehicle",
+          "tags": [
+            "Identity / Vehicle"
+          ],
+          "body_id_fields": [
+            "vin"
+          ]
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": {
+          "method": "POST",
+          "path": "/identity/api/v2/vehicle/add_vehicle",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/identity/api/v2/vehicle/add_vehicle"
+          ]
+        }
+      },
+      "flags": [
+        "BODY_ID"
+      ],
+      "notes": [
+        "요청 바디 객체 참조: vin"
+      ],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_025"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/vehicle/register_vehicle",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/vehicle/register_vehicle",
+          "handler": "registerVehicle",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/VehicleController.java:47",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_026"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/api/v2/vehicle/resend_email",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/api/v2/vehicle/resend_email",
+          "handler": "getVehicleDetails",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/VehicleController.java:74",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/identity/api/v2/vehicle/resend_email",
+          "auth": "token",
+          "operation_id": "vehicle_resend_email",
+          "summary": "Resend Vehicle Details Email",
+          "tags": [
+            "Identity / Vehicle"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_027"
+    },
+    {
+      "method": "GET",
+      "path": "/identity/api/v2/vehicle/vehicles",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "GET",
+          "path": "/identity/api/v2/vehicle/vehicles",
+          "handler": "getVehicle",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/VehicleController.java:88",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/identity/api/v2/vehicle/vehicles",
+          "auth": "token",
+          "operation_id": "get_vehicles",
+          "summary": "Get user vehicles",
+          "tags": [
+            "Identity / Vehicle"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/identity/api/v2/vehicle/vehicles",
+          "count": 4,
+          "statuses": {
+            "200": 4
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/identity/api/v2/vehicle/vehicles"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_028"
+    },
+    {
+      "method": "GET",
+      "path": "/identity/api/v2/vehicle/{carId}/location",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "GET",
+          "path": "/identity/api/v2/vehicle/{carId}/location",
+          "handler": "getLocationBOLA",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/VehicleController.java:121",
+          "auth": "token",
+          "auth_evidence": "anyRequest().authenticated()"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/identity/api/v2/vehicle/{vehicleId}/location",
+          "auth": "token",
+          "operation_id": "get_location",
+          "summary": "Get Vehicle Location",
+          "tags": [
+            "Identity / Vehicle"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/identity/api/v2/vehicle/{vehicleId}/location",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/identity/api/v2/vehicle/98c86840-b43f-4804-abfd-159165c21dd0/location",
+            "/identity/api/v2/vehicle/a1be0cdd-4952-4f28-8cfe-157b13c03091/location"
+          ]
+        }
+      },
+      "flags": [
+        "BOLA_CANDIDATE",
+        "TAINT_BOLA"
+      ],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_029",
+      "codeql": [
+        {
+          "rule": "apisec/bola-pathvar-to-repo",
+          "message": "소유권 검사 없는 @PathVariable이 getLocationBOLA() 핸들러에서 리포지토리 조회까지 도달 (요청자 컨텍스트 없음)",
+          "sink": "VehicleServiceImpl.java:180",
+          "source": "VehicleController.java:122",
+          "steps": [
+            "VehicleController.java:122  public ResponseEntity<?> getLocationBOLA(@PathVariable(\"carId\") UUID carId) {",
+            "VehicleController.java:123  VehicleLocationResponse vehicleDetails = vehicleService.getVehicleLocation(carId",
+            "VehicleServiceImpl.java:174  public VehicleLocationResponse getVehicleLocation(UUID carId) {",
+            "VehicleServiceImpl.java:180  vehicleDetails = vehicleDetailsRepository.findByUuid(carId);",
+            "VehicleServiceImpl.java:187  new VehicleLocationResponse("
+          ],
+          "pii_response": "소유권 검사 없는 핸들러 getLocationBOLA()의 응답에 PII(email, fullName)가 담겨 반환됨"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/identity/health_check",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "GET",
+          "path": "/identity/health_check",
+          "handler": "healthCheck",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/HealthCheckController.java:28",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/health_check) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_030"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/management/admin/lockUser",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/management/admin/lockUser",
+          "handler": "lockAccount",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ManagementControlller.java:48",
+          "auth": "role:ADMIN",
+          "auth_evidence": "requestMatchers(/identity/management/admin/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "ADMIN"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "role:ADMIN",
+      "id": "ep_031"
+    },
+    {
+      "method": "POST",
+      "path": "/identity/management/user/apikey",
+      "service": "identity",
+      "sources": {
+        "code": {
+          "service": "identity",
+          "method": "POST",
+          "path": "/identity/management/user/apikey",
+          "handler": "generateApiKey",
+          "loc": "sources/crAPI/services/identity/src/main/java/com/crapi/controller/ManagementControlller.java:56",
+          "auth": "public",
+          "auth_evidence": "requestMatchers(/identity/management/user/**) @ sources/crAPI/services/identity/src/main/java/com/crapi/config/WebSecurityConfig.java:80"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/identity/",
+          "upstream": "identity"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "ADMIN",
+        "NO_AUTH"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_032"
+    },
+    {
+      "method": "POST",
+      "path": "/community/api/v2/community/posts",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "POST",
+          "path": "/community/api/v2/community/posts",
+          "handler": "AddNewPost",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:53",
+          "auth": "token",
+          "auth_evidence": "SetMiddlewareAuthentication 래핑"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/community/api/v2/community/posts",
+          "auth": "token",
+          "operation_id": "create_post",
+          "summary": "Create Post",
+          "tags": [
+            "Community / Posts"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/community/",
+          "upstream": "community"
+        },
+        "traffic": {
+          "method": "POST",
+          "path": "/community/api/v2/community/posts",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/community/api/v2/community/posts"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_033"
+    },
+    {
+      "method": "GET",
+      "path": "/community/api/v2/community/posts/recent",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "GET",
+          "path": "/community/api/v2/community/posts/recent",
+          "handler": "GetPost",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:47",
+          "auth": "token",
+          "auth_evidence": "SetMiddlewareAuthentication 래핑"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/community/api/v2/community/posts/recent",
+          "auth": "token",
+          "operation_id": "get_recent_posts",
+          "summary": "Get Recent Posts",
+          "tags": [
+            "Community / Posts"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/community/",
+          "upstream": "community"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/community/api/v2/community/posts/recent",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/community/api/v2/community/posts/recent"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_034"
+    },
+    {
+      "method": "GET",
+      "path": "/community/api/v2/community/posts/search",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "GET",
+          "path": "/community/api/v2/community/posts/search",
+          "handler": "GetPostsByTitle",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:49",
+          "auth": "token",
+          "auth_evidence": "SetMiddlewareAuthentication 래핑"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/community/",
+          "upstream": "community"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/community/api/v2/community/posts/search",
+          "count": 2,
+          "statuses": {
+            "400": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/community/api/v2/community/posts/search"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_035"
+    },
+    {
+      "method": "GET",
+      "path": "/community/api/v2/community/posts/{postID}",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "GET",
+          "path": "/community/api/v2/community/posts/{postID}",
+          "handler": "GetPostByID",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:51",
+          "auth": "token",
+          "auth_evidence": "SetMiddlewareAuthentication 래핑"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/community/api/v2/community/posts/{postId}",
+          "auth": "token",
+          "operation_id": "get_post",
+          "summary": "Get Post",
+          "tags": [
+            "Community / Posts"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/community/",
+          "upstream": "community"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/community/api/v2/community/posts/{postId}",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/community/api/v2/community/posts/CBhNXA3GDCTmvEmGgMpxSM",
+            "/community/api/v2/community/posts/WVAyJXGLDQGDzJbzXUjJt4"
+          ]
+        }
+      },
+      "flags": [
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_036"
+    },
+    {
+      "method": "POST",
+      "path": "/community/api/v2/community/posts/{postID}/comment",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "POST",
+          "path": "/community/api/v2/community/posts/{postID}/comment",
+          "handler": "Comment",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:55",
+          "auth": "token",
+          "auth_evidence": "SetMiddlewareAuthentication 래핑"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/community/api/v2/community/posts/{postId}/comment",
+          "auth": "token",
+          "operation_id": "post_comment",
+          "summary": "Post Comment",
+          "tags": [
+            "Community / Posts"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/community/",
+          "upstream": "community"
+        },
+        "traffic": {
+          "method": "POST",
+          "path": "/community/api/v2/community/posts/{postID}/comment",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/community/api/v2/community/posts/CBhNXA3GDCTmvEmGgMpxSM/comment",
+            "/community/api/v2/community/posts/WVAyJXGLDQGDzJbzXUjJt4/comment"
+          ]
+        }
+      },
+      "flags": [
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_037"
+    },
+    {
+      "method": "POST",
+      "path": "/community/api/v2/coupon/new-coupon",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "POST",
+          "path": "/community/api/v2/coupon/new-coupon",
+          "handler": "AddNewCoupon",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:58",
+          "auth": "token",
+          "auth_evidence": "SetMiddlewareAuthentication 래핑"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/community/api/v2/coupon/new-coupon",
+          "auth": "token",
+          "operation_id": "add_new_coupon",
+          "summary": "Add a New Coupon",
+          "tags": [
+            "Community / Coupon"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/community/",
+          "upstream": "community"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_038"
+    },
+    {
+      "method": "POST",
+      "path": "/community/api/v2/coupon/validate-coupon",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "POST",
+          "path": "/community/api/v2/coupon/validate-coupon",
+          "handler": "ValidateCoupon",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:60",
+          "auth": "token",
+          "auth_evidence": "SetMiddlewareAuthentication 래핑"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/community/api/v2/coupon/validate-coupon",
+          "auth": "token",
+          "operation_id": "validate_coupon",
+          "summary": "Validate Coupon",
+          "tags": [
+            "Community / Coupon"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/community/",
+          "upstream": "community"
+        },
+        "traffic": {
+          "method": "POST",
+          "path": "/community/api/v2/coupon/validate-coupon",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/community/api/v2/coupon/validate-coupon"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_039"
+    },
+    {
+      "method": "GET",
+      "path": "/community/home",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "GET",
+          "path": "/community/home",
+          "handler": "Home",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:63",
+          "auth": "public",
+          "auth_evidence": "인증 미들웨어 없음"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/community/",
+          "upstream": "community"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_040"
+    },
+    {
+      "method": "ANY",
+      "path": "/debug/pprof/{*}",
+      "service": "community",
+      "sources": {
+        "code": {
+          "service": "community",
+          "method": "ANY",
+          "path": "/debug/pprof/{*}",
+          "handler": "http.DefaultServeMux",
+          "loc": "sources/crAPI/services/community/api/router/routes.go:44",
+          "auth": "public",
+          "auth_evidence": "PathPrefix 핸들러, 인증 미들웨어 없음",
+          "note": "와일드카드 라우트 (조건부 등록 여부는 코드 확인 필요)"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": false,
+          "location": "/debug/",
+          "upstream": null
+        },
+        "traffic": null
+      },
+      "flags": [
+        "DEBUG"
+      ],
+      "notes": [
+        "와일드카드 라우트 (조건부 등록 여부는 코드 확인 필요)"
+      ],
+      "lifecycle": "internal-only",
+      "auth": "public",
+      "id": "ep_041"
+    },
+    {
+      "method": "ANY",
+      "path": "/workshop/admin/{*}",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "ANY",
+          "path": "/workshop/admin/{*}",
+          "handler": "django.contrib.admin",
+          "loc": "sources/crAPI/services/workshop/crapi_site/urls.py:35",
+          "auth": "session-login",
+          "auth_evidence": "Django admin 로그인 페이지",
+          "note": "관리자 콘솔"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "ADMIN"
+      ],
+      "notes": [
+        "관리자 콘솔"
+      ],
+      "lifecycle": "shadow",
+      "auth": "session-login",
+      "id": "ep_042"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/management/users/all",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/management/users/all",
+          "handler": "AdminUserView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/user/views.py:40",
+          "route_loc": "sources/crAPI/services/workshop/crapi/user/urls.py:25",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/management/users/all",
+          "auth": "token",
+          "operation_id": "get_workshop_users_all",
+          "summary": "Get Workshop Users Detail",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "ADMIN"
+      ],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_043"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/mechanic",
+          "handler": "MechanicView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:130",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:45",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/mechanic",
+          "auth": "token",
+          "operation_id": "get_mechanics",
+          "summary": "Get Mechanics",
+          "tags": [
+            "Workshop / Mechanic"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/workshop/api/mechanic",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/workshop/api/mechanic"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_044"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic/download_report",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/mechanic/download_report",
+          "handler": "DownloadReportView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:381",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:44",
+          "auth": "public",
+          "auth_evidence": "인증 데코레이터 없음"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "NO_AUTH"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_045"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic/mechanic_report",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/mechanic/mechanic_report",
+          "handler": "GetReportView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:213",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:26",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/mechanic/mechanic_report",
+          "auth": "token",
+          "operation_id": "get_report_byID",
+          "summary": "Get Service Report",
+          "tags": [
+            "Workshop / Mechanic"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/workshop/api/mechanic/mechanic_report",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/workshop/api/mechanic/mechanic_report"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_046"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic/receive_report",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/mechanic/receive_report",
+          "handler": "ReceiveReportView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:169",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:25",
+          "auth": "public",
+          "auth_evidence": "인증 데코레이터 없음"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/mechanic/receive_report",
+          "auth": "public",
+          "operation_id": "create_service_report",
+          "summary": "Create and Assign a Service Report",
+          "tags": [
+            "Workshop / Mechanic"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "NO_AUTH"
+      ],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_047"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic/service_request",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/mechanic/service_request",
+          "handler": "MechanicServiceRequestsView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:256",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:40",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_048"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic/service_request/{service_request_id}",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/mechanic/service_request/{service_request_id}",
+          "handler": "ServiceRequestView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:347",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:35",
+          "auth": "public",
+          "auth_evidence": "인증 데코레이터 없음"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BOLA_CANDIDATE",
+        "NO_AUTH",
+        "TAINT_BOLA"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_049",
+      "codeql": [
+        {
+          "rule": "apisec/bola-orm-to-pii",
+          "message": "무인증 뷰 get()에서 ORM 조회 객체가 소유권 검사 없이 PII 직렬화까지 도달",
+          "sink": "views.py:373",
+          "source": "views.py:372",
+          "steps": [
+            "views.py:372  service_request = ServiceRequest.objects.get(id=service_request_id)",
+            "views.py:373  serializer = MechanicServiceRequestSerializer(service_request)"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/workshop/api/mechanic/service_request/{service_request_id}",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "PUT",
+          "path": "/workshop/api/mechanic/service_request/{service_request_id}",
+          "handler": "ServiceRequestView.put",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:347",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:35",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_050"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic/service_request/{service_request_id}/comment",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/mechanic/service_request/{service_request_id}/comment",
+          "handler": "ServiceCommentView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:299",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:31",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_051"
+    },
+    {
+      "method": "POST",
+      "path": "/workshop/api/mechanic/service_request/{service_request_id}/comment",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "POST",
+          "path": "/workshop/api/mechanic/service_request/{service_request_id}/comment",
+          "handler": "ServiceCommentView.post",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:299",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:31",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_052"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/mechanic/service_requests",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/mechanic/service_requests",
+          "handler": "MechanicServiceRequestsView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:256",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:39",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/mechanic/service_requests",
+          "auth": "token",
+          "operation_id": "get_service_requests_for_mechanic",
+          "summary": "Get Service Reports for a Mechanic",
+          "tags": [
+            "Workshop / Mechanic"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_053"
+    },
+    {
+      "method": "POST",
+      "path": "/workshop/api/mechanic/signup",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "POST",
+          "path": "/workshop/api/mechanic/signup",
+          "handler": "SignUpView.post",
+          "loc": "sources/crAPI/services/workshop/crapi/mechanic/views.py:54",
+          "route_loc": "sources/crAPI/services/workshop/crapi/mechanic/urls.py:24",
+          "auth": "public",
+          "auth_evidence": "인증 데코레이터 없음"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/workshop/api/mechanic/signup",
+          "auth": "public",
+          "operation_id": "mechanic_signup",
+          "summary": "New Mechanic Signup",
+          "tags": [
+            "Workshop / Mechanic"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_054"
+    },
+    {
+      "method": "POST",
+      "path": "/workshop/api/merchant/contact_mechanic",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "POST",
+          "path": "/workshop/api/merchant/contact_mechanic",
+          "handler": "ContactMechanicView.post",
+          "loc": "sources/crAPI/services/workshop/crapi/merchant/views.py:45",
+          "route_loc": "sources/crAPI/services/workshop/crapi/merchant/urls.py:24",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/workshop/api/merchant/contact_mechanic",
+          "auth": "token",
+          "operation_id": "contact_mechanic",
+          "summary": "Contact Mechanic",
+          "tags": [
+            "Workshop / Mechanic"
+          ],
+          "body_id_fields": [
+            "vin"
+          ]
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": {
+          "method": "POST",
+          "path": "/workshop/api/merchant/contact_mechanic",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/workshop/api/merchant/contact_mechanic"
+          ]
+        }
+      },
+      "flags": [
+        "BODY_ID"
+      ],
+      "notes": [
+        "요청 바디 객체 참조: vin"
+      ],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_055"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/merchant/service_requests/{vin}",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/merchant/service_requests/{vin}",
+          "handler": "UserServiceRequestsView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/merchant/views.py:166",
+          "route_loc": "sources/crAPI/services/workshop/crapi/merchant/urls.py:25",
+          "auth": "public",
+          "auth_evidence": "인증 데코레이터 없음"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BOLA_CANDIDATE",
+        "NO_AUTH"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_056"
+    },
+    {
+      "method": "POST",
+      "path": "/workshop/api/shop/apply_coupon",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "POST",
+          "path": "/workshop/api/shop/apply_coupon",
+          "handler": "ApplyCouponView.post",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:365",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:30",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/workshop/api/shop/apply_coupon",
+          "auth": "token",
+          "operation_id": "apply_coupon",
+          "summary": "Apply Coupon",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_057"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/shop/orders",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/shop/orders",
+          "handler": "OrderControlView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:109",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:29",
+          "auth": "public",
+          "auth_evidence": "인증 데코레이터 없음"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "NO_AUTH"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "public",
+      "id": "ep_058"
+    },
+    {
+      "method": "POST",
+      "path": "/workshop/api/shop/orders",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "POST",
+          "path": "/workshop/api/shop/orders",
+          "handler": "OrderControlView.post",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:109",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:29",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/workshop/api/shop/orders",
+          "auth": "token",
+          "operation_id": "create_order",
+          "summary": "Create Order",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": [
+            "product_id"
+          ]
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": {
+          "method": "POST",
+          "path": "/workshop/api/shop/orders",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/workshop/api/shop/orders"
+          ]
+        }
+      },
+      "flags": [
+        "BODY_ID"
+      ],
+      "notes": [
+        "요청 바디 객체 참조: product_id"
+      ],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_059"
+    },
+    {
+      "method": "PUT",
+      "path": "/workshop/api/shop/orders",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "PUT",
+          "path": "/workshop/api/shop/orders",
+          "handler": "OrderControlView.put",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:109",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:29",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_060"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/shop/orders/all",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/shop/orders/all",
+          "handler": "OrderDetailsView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:267",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:26",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/shop/orders/all",
+          "auth": "token",
+          "operation_id": "get_orders",
+          "summary": "Get Orders",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/workshop/api/shop/orders/all",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/workshop/api/shop/orders/all"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_061"
+    },
+    {
+      "method": "POST",
+      "path": "/workshop/api/shop/orders/return_order",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "POST",
+          "path": "/workshop/api/shop/orders/return_order",
+          "handler": "ReturnOrder.post",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:302",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:27",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/workshop/api/shop/orders/return_order",
+          "auth": "token",
+          "operation_id": "return_order",
+          "summary": "Return Order",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_062"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/shop/orders/{order_id}",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/shop/orders/{order_id}",
+          "handler": "OrderControlView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:109",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:28",
+          "auth": "public",
+          "auth_evidence": "인증 데코레이터 없음"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/shop/orders/{order_id}",
+          "auth": "token",
+          "operation_id": "get_order_byID",
+          "summary": "Get Order Based on ID",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/workshop/api/shop/orders/{order_id}",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/workshop/api/shop/orders/6",
+            "/workshop/api/shop/orders/7"
+          ]
+        }
+      },
+      "flags": [
+        "AUTH_MISMATCH",
+        "BOLA_CANDIDATE",
+        "NO_AUTH",
+        "TAINT_BOLA"
+      ],
+      "notes": [
+        "코드=public / 스펙=token"
+      ],
+      "lifecycle": "active",
+      "auth": "public",
+      "id": "ep_063",
+      "codeql": [
+        {
+          "rule": "apisec/bola-orm-to-pii",
+          "message": "무인증 뷰 get()에서 ORM 조회 객체가 소유권 검사 없이 PII 직렬화까지 도달",
+          "sink": "views.py:123",
+          "source": "views.py:122",
+          "steps": [
+            "views.py:122  order = Order.objects.get(id=order_id)",
+            "views.py:123  order_serializer = OrderSerializer(order)"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/workshop/api/shop/orders/{order_id}",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "POST",
+          "path": "/workshop/api/shop/orders/{order_id}",
+          "handler": "OrderControlView.post",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:109",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:28",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "token",
+      "id": "ep_064"
+    },
+    {
+      "method": "PUT",
+      "path": "/workshop/api/shop/orders/{order_id}",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "PUT",
+          "path": "/workshop/api/shop/orders/{order_id}",
+          "handler": "OrderControlView.put",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:109",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:28",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "PUT",
+          "path": "/workshop/api/shop/orders/{order_id}",
+          "auth": "token",
+          "operation_id": "update_order",
+          "summary": "Update Order",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": [
+            "product_id"
+          ]
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "BODY_ID",
+        "BOLA_CANDIDATE"
+      ],
+      "notes": [
+        "요청 바디 객체 참조: product_id"
+      ],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_065"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/shop/products",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/shop/products",
+          "handler": "ProductView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:51",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:25",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/shop/products",
+          "auth": "token",
+          "operation_id": "get_products",
+          "summary": "Get Products",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/workshop/api/shop/products",
+          "count": 2,
+          "statuses": {
+            "200": 2
+          },
+          "actors": [
+            "usera@test.local",
+            "userb@test.local"
+          ],
+          "unauth_2xx": 0,
+          "matched_template": true,
+          "samples": [
+            "/workshop/api/shop/products"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "active",
+      "auth": "token",
+      "id": "ep_066"
+    },
+    {
+      "method": "POST",
+      "path": "/workshop/api/shop/products",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "POST",
+          "path": "/workshop/api/shop/products",
+          "handler": "ProductView.post",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:51",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:25",
+          "auth": "token",
+          "auth_evidence": "@jwt_auth_required"
+        },
+        "spec": {
+          "method": "POST",
+          "path": "/workshop/api/shop/products",
+          "auth": "token",
+          "operation_id": "add_new_product",
+          "summary": "Add A New Product",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "unobserved",
+      "auth": "token",
+      "id": "ep_067"
+    },
+    {
+      "method": "GET",
+      "path": "/workshop/api/shop/return_qr_code",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "GET",
+          "path": "/workshop/api/shop/return_qr_code",
+          "handler": "ReturnQRCodeView.get",
+          "loc": "sources/crAPI/services/workshop/crapi/shop/views.py:349",
+          "route_loc": "sources/crAPI/services/workshop/crapi/shop/urls.py:31",
+          "auth": "public",
+          "auth_evidence": "인증 데코레이터 없음"
+        },
+        "spec": {
+          "method": "GET",
+          "path": "/workshop/api/shop/return_qr_code",
+          "auth": "token",
+          "operation_id": "get_workshop_qr_code",
+          "summary": "Get Workshop",
+          "tags": [
+            "Workshop / Shop"
+          ],
+          "body_id_fields": []
+        },
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [
+        "AUTH_MISMATCH",
+        "NO_AUTH"
+      ],
+      "notes": [
+        "코드=public / 스펙=token"
+      ],
+      "lifecycle": "unobserved",
+      "auth": "public",
+      "id": "ep_068"
+    },
+    {
+      "method": "ANY",
+      "path": "/workshop/health_check/{*}",
+      "service": "workshop",
+      "sources": {
+        "code": {
+          "service": "workshop",
+          "method": "ANY",
+          "path": "/workshop/health_check/{*}",
+          "handler": "health_check.urls",
+          "loc": "sources/crAPI/services/workshop/crapi_site/urls.py:36",
+          "auth": "unknown",
+          "auth_evidence": "외부 패키지 include (소스 없음)"
+        },
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/workshop/",
+          "upstream": "workshop"
+        },
+        "traffic": null
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "shadow",
+      "auth": "unknown",
+      "id": "ep_069"
+    },
+    {
+      "method": "ANY",
+      "path": "/chatbot/{*}",
+      "service": "chatbot",
+      "sources": {
+        "code": null,
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/chatbot/",
+          "upstream": "chatbot",
+          "kind": "proxy",
+          "line": 197
+        },
+        "traffic": null
+      },
+      "flags": [
+        "NO_AUTH",
+        "UNSCANNED"
+      ],
+      "notes": [
+        "코드 미분석 서비스(chatbot) — 접두사 전체가 노출"
+      ],
+      "lifecycle": "gateway-only",
+      "auth": "public",
+      "id": "ep_070"
+    },
+    {
+      "method": "ANY",
+      "path": "/debug/{*}",
+      "service": "gateway",
+      "sources": {
+        "code": null,
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/debug/",
+          "upstream": null,
+          "kind": "directory-listing",
+          "line": 225
+        },
+        "traffic": null
+      },
+      "flags": [
+        "DEBUG",
+        "NO_AUTH"
+      ],
+      "notes": [
+        "nginx autoindex: 디렉터리 목록 공개"
+      ],
+      "lifecycle": "gateway-only",
+      "auth": "public",
+      "id": "ep_071"
+    },
+    {
+      "method": "GET",
+      "path": "/health",
+      "service": "gateway",
+      "sources": {
+        "code": null,
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/health",
+          "upstream": null,
+          "kind": "static-response",
+          "line": 253
+        },
+        "traffic": {
+          "method": "GET",
+          "path": "/health",
+          "count": 1,
+          "statuses": {
+            "200": 1
+          },
+          "actors": [
+            "anonymous"
+          ],
+          "unauth_2xx": 1,
+          "matched_template": false,
+          "samples": [
+            "/health"
+          ]
+        }
+      },
+      "flags": [],
+      "notes": [],
+      "lifecycle": "gateway-only",
+      "auth": "public",
+      "id": "ep_072"
+    },
+    {
+      "method": "ANY",
+      "path": "/mailhog/{*}",
+      "service": "mailhog",
+      "sources": {
+        "code": null,
+        "spec": null,
+        "gateway": {
+          "exposed": true,
+          "location": "/mailhog/",
+          "upstream": "mailhog",
+          "kind": "proxy",
+          "line": 236
+        },
+        "traffic": null
+      },
+      "flags": [
+        "INTERNAL_TOOL",
+        "NO_AUTH"
+      ],
+      "notes": [
+        "게이트웨이가 내부 도구(mailhog)를 외부로 프록시"
+      ],
+      "lifecycle": "gateway-only",
+      "auth": "public",
+      "id": "ep_073"
+    }
+  ]
+}
