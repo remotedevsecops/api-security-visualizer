@@ -14,6 +14,13 @@
 
 > 패턴 매칭(Semgrep) → 데이터 흐름(CodeQL) → 런타임 실증(M3)의 **3단계 깊이**를 교차해 오탐을 줄이는 게 설계 핵심.
 
+### 🔗 결과 샘플
+
+- **[렌더된 대시보드 바로 보기](https://raw.githack.com/remotedevsecops/api-security-visualizer/main/data/report.html)** — M1 목록 + 확정 취약점 흐름(시퀀스·차분 매트릭스)
+- 원본: [`data/report.html`](data/report.html) · [`data/attack_surface.html`](data/attack_surface.html) (crAPI 실습 앱 결과라 비식별 불필요)
+
+> GitHub에선 `.html`이 소스로만 보여 위 링크는 githack 프록시로 렌더합니다.
+
 ## 한눈에
 
 네 출처(코드·스펙·게이트웨이·트래픽)로 API를 탐지·분류(M1)하고, 개인정보 노출을 탐지(M2)한 뒤,
